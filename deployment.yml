@@ -1,0 +1,12 @@
+---
+- hosts: webnode
+  become: true
+  tasks:
+    - name: "Asegurar que el contenedor antiguo no exista"
+      shell: docker rm -f mi-app-web || true
+
+    - name: "Descargar la imagen más reciente desde Docker Hub"
+      shell: "docker pull {{ docker_image }}"
+
+    - name: "Lanzar el nuevo contenedor en el puerto 30000"
+      shell: "docker run -d --name mi-app-web -p 30000:80 {{ docker_image }}"
